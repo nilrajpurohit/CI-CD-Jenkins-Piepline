@@ -9,6 +9,7 @@
     "dev": "nodemon --watch src --exec ts-node src/index.ts",
     "test": "echo \"No tests yet\""
   },
+  "type": "module",
   "devDependencies": {
     "@types/dotenv": "^6.1.1",
     "@types/express": "^5.0.6",
