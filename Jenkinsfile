@@ -25,12 +25,5 @@ pipeline {
                 }
             }
         }
-        stage('Deploy') {
-            steps {
-                dir('node-jenkins') {
-                    sh 'docker-compose up -d web'
-                }
-            }
-        }
     }
 }
