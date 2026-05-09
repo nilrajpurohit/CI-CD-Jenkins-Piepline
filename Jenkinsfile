@@ -28,7 +28,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 dir('node-jenkins') {
-                    sh 'npm run start'
+                    sh 'docker-compose up -d web'
                 }
             }
         }
