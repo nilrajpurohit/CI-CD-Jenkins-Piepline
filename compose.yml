@@ -1,0 +1,46 @@
+services:
+  web:
+    image: node:24-alpine
+    container_name: node-jenkins-pipeline
+    working_dir: /app
+    command: sh -c "npm install && npm run dev"
+    env_file:
+      - .env
+    ports:
+      - ${APP_PORT}:${APP_PORT}
+    volumes:
+      - .:/app
+    networks:
+      - node-jenkins-pipeline-network
+  
+  nginx:
+    image: nginx:alpine
+    container_name: nginx-jenkins-pipeline
+    ports:
+      - 80:80
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - web
+    networks:
+      - node-jenkins-pipeline-network
+  
+  jenkins:
+    image: jenkins/jenkins:lts
+    container_name: jenkins-pipeline
+    environment:
+      - JENKINS_ADMIN_ID=${JENKINS_USER}
+      - JENKINS_ADMIN_PASSWORD=${JENKINS_PASSWORD}
+    ports:
+      - ${JENKINS_PORT}:${JENKINS_PORT}
+      - ${JENKINS_CLIENT_PORT}:${JENKINS_CLIENT_PORT}
+    volumes:
+      - ./jenkins_home:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+    user: root
+    networks:
+      - node-jenkins-pipeline-network
+
+networks:
+  node-jenkins-pipeline-network:
+    driver: bridge
