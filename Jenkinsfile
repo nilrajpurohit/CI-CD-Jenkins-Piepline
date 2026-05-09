@@ -6,28 +6,28 @@ pipeline {
     stages {
         stage('Pre-build') {
             steps {
-                dir('app') {
+                dir('node-jenkins') {
                     sh 'npm install'
                 }
             }
         }
         stage('Pre-test') {
             steps {
-                dir('app') {
+                dir('node-jenkins') {
                     sh 'npm run test'
                 }
             }
         }
         stage('Build') {
             steps {
-                dir('app') {
+                dir('node-jenkins') {
                     sh 'npm run build'
                 }
             }
         }
         stage('Deploy') {
             steps {
-                dir('app') {
+                dir('node-jenkins') {
                     sh 'npm run start'
                 }
             }
